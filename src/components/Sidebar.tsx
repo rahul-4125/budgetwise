@@ -1,7 +1,8 @@
 
 import { Link, useLocation } from "react-router-dom";
-import { ChartPie, Calendar, FilePlus, Settings } from "lucide-react";
+import { ChartPie, Calendar, FilePlus, Settings, Moon, Sun } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useState, useEffect } from "react";
 
 // Brand logo: green, minimal, focused on cashbills
 const Logo = () => (
@@ -31,12 +32,43 @@ const sidebarItems = [
   { label: "Settings", icon: Settings, path: "/settings" }
 ];
 
+// Dark mode toggle functionality in sidebar
+function DarkModeToggler() {
+  const [isDark, setIsDark] = useState(
+    () => document.documentElement.classList.contains("dark")
+  );
+
+  useEffect(() => {
+    if (isDark) {
+      document.documentElement.classList.add("dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+    }
+  }, [isDark]);
+
+  return (
+    <button
+      aria-label="Toggle dark mode"
+      className={cn(
+        "mt-5 mb-2 flex items-center gap-2 px-4 py-2 rounded-xl w-full justify-center font-semibold bg-muted hover:bg-accent/60 transition text-lg shadow",
+        isDark ? "text-yellow-300" : "text-green-700"
+      )}
+      onClick={() => setIsDark((v) => !v)}
+      type="button"
+    >
+      {isDark ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+      <span>{isDark ? "Light Mode" : "Dark Mode"}</span>
+    </button>
+  );
+}
+
 export function Sidebar() {
   const location = useLocation();
 
   return (
     <aside className="flex flex-col min-h-screen w-64 border-r border-border bg-sidebar p-8 gap-6 shadow-lg z-40">
       <Logo />
+      <DarkModeToggler />
       <nav className="flex flex-col gap-2">
         {sidebarItems.map(({ label, icon: Icon, path }) => (
           <Link
@@ -61,3 +93,4 @@ export function Sidebar() {
     </aside>
   );
 }
+

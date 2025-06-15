@@ -29,10 +29,10 @@ const areaData = [
 
 export function AnalyticsDashboard() {
   return (
-    <div className="flex flex-col lg:flex-row gap-10 px-2 lg:px-6">
+    <div className="flex flex-col gap-10 px-2 lg:px-6 w-full max-w-3xl mx-auto">
       <ChartCard title="Expense Breakdown by Category">
         <div className="flex flex-col items-center">
-          <span className="text-green-600 font-bold text-base mb-1">Keep tabs on every dollar</span>
+          <span className="text-green-600 font-bold text-base mb-1">Keep tabs on every rupee</span>
           <ResponsiveContainer width="99%" height={230}>
             <PieChart>
               <Pie
@@ -86,3 +86,4 @@ export function AnalyticsDashboard() {
     </div>
   );
 }
+
