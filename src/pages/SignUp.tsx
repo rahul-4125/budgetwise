@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "@/hooks/use-toast";
 import { Eye, EyeOff } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
 
 export default function SignUp() {
   const [name, setName] = useState("");
@@ -12,6 +13,7 @@ export default function SignUp() {
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [showRePassword, setShowRePassword] = useState(false);
+  const [user, setUser] = useState<any>(null);
   const navigate = useNavigate();
 
   // Ensure dark mode toggles page background as well
@@ -25,13 +27,29 @@ export default function SignUp() {
       }
     };
     onClassChange();
-    // Listen for class changes on html
     const observer = new MutationObserver(onClassChange);
-    observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+    observer.observe(document.documentElement, { attributes: true, attributeFilter: ["class"] });
     return () => observer.disconnect();
   }, []);
 
-  function handleSubmit(e: React.FormEvent) {
+  // Listen for auth changes and redirect if already signed up
+  useEffect(() => {
+    const { data: listener } = supabase.auth.onAuthStateChange((_event, session) => {
+      setUser(session?.user ?? null);
+      if (session?.user) {
+        navigate("/dashboard");
+      }
+    });
+    supabase.auth.getUser().then(({ data }) => {
+      if (data.user) {
+        setUser(data.user);
+        navigate("/dashboard");
+      }
+    });
+    return () => listener.subscription.unsubscribe();
+  }, [navigate]);
+
+  async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     if (!name.trim()) {
       toast({ title: "Name required", description: "Let us know your name!" });
@@ -42,15 +60,29 @@ export default function SignUp() {
       return;
     }
     setLoading(true);
-    // Mock success
-    setTimeout(() => {
-      setLoading(false);
+    const redirectUrl = `${window.location.origin}/dashboard`;
+    const { error } = await supabase.auth.signUp({
+      email,
+      password: pass,
+      options: {
+        emailRedirectTo: redirectUrl,
+        data: { full_name: name }
+      }
+    });
+    setLoading(false);
+    if (error) {
       toast({
-        title: "Account created!",
-        description: `Welcome to BudgetWise, ${name}!`,
+        title: "Sign up failed",
+        description: error.message,
+        variant: "destructive"
       });
-      navigate("/dashboard");
-    }, 700);
+      return;
+    }
+    toast({
+      title: "Account created!",
+      description: `Welcome to BudgetWise, ${name}! Please check your email for a confirmation link.`,
+    });
+    navigate("/dashboard");
   }
 
   return (
