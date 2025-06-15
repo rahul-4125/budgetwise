@@ -8,12 +8,12 @@ export default function Index() {
       <div className="flex flex-col items-center gap-8 max-w-xl mx-auto">
         <div className="bg-white/60 rounded-3xl shadow-xl p-8 w-full relative">
           <div className="flex justify-center mb-4">
-            {/* Rupee logo (brand) */}
+            {/* Rupee logo (brand) with smaller symbol */}
             <svg width="70" height="70" viewBox="0 0 36 36" fill="none">
               <rect x="3" y="7" width="30" height="22" rx="6" fill="#22C55E" stroke="#166534" strokeWidth="2"/>
               <ellipse cx="18" cy="18" rx="8" ry="8" fill="#F4F1BB" stroke="#166534" strokeWidth="1.6"/>
-              {/* Rupee symbol */}
-              <text x="18" y="24" textAnchor="middle" fontSize="20" fill="#22C55E" fontWeight="bold">₹</text>
+              {/* Smaller Rupee symbol */}
+              <text x="18" y="21.5" textAnchor="middle" fontSize="14" fill="#22C55E" fontWeight="bold" dominantBaseline="middle">₹</text>
             </svg>
           </div>
           <h1 className="text-5xl font-bold text-green-800 mb-3 text-center drop-shadow">BudgetWise</h1>
