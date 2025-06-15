@@ -16,6 +16,9 @@ import SignUp from "./pages/SignUp";
 import SignIn from "./pages/SignIn";
 import NotFound from "./pages/NotFound";
 
+// Create a QueryClient instance for React Query
+const queryClient = new QueryClient();
+
 // No more Navbar at top, only Sidebar at side.
 const App = () => (
   <QueryClientProvider client={queryClient}>
