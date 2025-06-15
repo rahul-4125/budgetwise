@@ -56,11 +56,23 @@ export default function SignIn() {
     });
     setLoading(false);
     if (error) {
-      toast({
-        title: "Sign in failed",
-        description: error.message || "Please check your credentials.",
-        variant: "destructive"
-      });
+      if (
+        error.message &&
+        (error.message.includes("Email not confirmed") ||
+          error.message.toLowerCase().includes("email") && error.message.toLowerCase().includes("confirm"))
+      ) {
+        toast({
+          title: "Please verify your email",
+          description: "Check your inbox and click the link to confirm your email address before signing in.",
+          variant: "destructive"
+        });
+      } else {
+        toast({
+          title: "Sign in failed",
+          description: error.message || "Please check your credentials.",
+          variant: "destructive"
+        });
+      }
       return;
     }
     toast({

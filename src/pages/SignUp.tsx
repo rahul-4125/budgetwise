@@ -14,6 +14,7 @@ export default function SignUp() {
   const [showPassword, setShowPassword] = useState(false);
   const [showRePassword, setShowRePassword] = useState(false);
   const [user, setUser] = useState<any>(null);
+  const [showVerifyPrompt, setShowVerifyPrompt] = useState(false); // NEW
   const navigate = useNavigate();
 
   // Ensure dark mode toggles page background as well
@@ -78,11 +79,7 @@ export default function SignUp() {
       });
       return;
     }
-    toast({
-      title: "Account created!",
-      description: `Welcome to BudgetWise, ${name}! Please check your email for a confirmation link.`,
-    });
-    navigate("/dashboard");
+    setShowVerifyPrompt(true);
   }
 
   return (
@@ -95,71 +92,90 @@ export default function SignUp() {
             <text x="18" y="22" textAnchor="middle" fontSize="14" fill="#22C55E" fontWeight="bold">$</text>
           </svg>
         </div>
-        <h2 className="text-3xl font-extrabold text-center text-green-900 dark:text-green-100 mb-2">Create your BudgetWise account</h2>
-        <form onSubmit={handleSubmit} className="flex flex-col gap-5">
-          <input
-            type="text"
-            placeholder="Full Name"
-            value={name}
-            onChange={e => setName(e.target.value)}
-            className="bg-green-50 dark:bg-neutral-800 border border-green-200 dark:border-green-700 rounded-xl px-4 py-3 text-lg outline-none focus:ring-2 focus:ring-green-300 dark:focus:ring-green-800 transition text-black dark:text-white"
-          />
-          <input
-            type="email"
-            placeholder="Email"
-            required
-            value={email}
-            onChange={e => setEmail(e.target.value)}
-            className="bg-green-50 dark:bg-neutral-800 border border-green-200 dark:border-green-700 rounded-xl px-4 py-3 text-lg outline-none focus:ring-2 focus:ring-green-300 dark:focus:ring-green-800 transition text-black dark:text-white"
-          />
-          <div className="relative">
-            <input
-              type={showPassword ? "text" : "password"}
-              placeholder="Password"
-              required
-              value={pass}
-              onChange={e => setPass(e.target.value)}
-              minLength={6}
-              className="bg-green-50 dark:bg-neutral-800 border border-green-200 dark:border-green-700 rounded-xl px-4 py-3 text-lg outline-none focus:ring-2 focus:ring-green-300 dark:focus:ring-green-800 transition text-black dark:text-white w-full pr-12"
-            />
+        <h2 className="text-3xl font-extrabold text-center text-green-900 dark:text-green-100 mb-2">
+          Create your BudgetWise account
+        </h2>
+        {showVerifyPrompt ? (
+          <div className="flex flex-col gap-5 text-center">
+            <div className="text-green-800 dark:text-green-100 text-lg font-semibold">
+              🎉 Account created!
+            </div>
+            <div className="text-md text-green-900 dark:text-green-200">
+              Please check your email (<span className="font-semibold">{email}</span>) for a verification link before signing in.
+            </div>
             <button
-              type="button"
-              tabIndex={-1}
-              className="absolute right-3 top-1/2 transform -translate-y-1/2 text-green-500 hover:text-green-700 dark:text-green-400 dark:hover:text-green-200"
-              onClick={() => setShowPassword(v => !v)}
-              aria-label={showPassword ? "Hide password" : "Show password"}
+              className="w-full bg-green-600 text-white py-3 rounded-xl font-semibold text-lg hover:bg-green-700 hover:scale-105 transition mt-4"
+              onClick={() => navigate("/signin")}
             >
-              {showPassword ? <EyeOff size={22} /> : <Eye size={22} />}
+              Go to Sign In
             </button>
           </div>
-          <div className="relative">
+        ) : (
+          <form onSubmit={handleSubmit} className="flex flex-col gap-5">
             <input
-              type={showRePassword ? "text" : "password"}
-              placeholder="Re-enter Password"
-              required
-              value={repass}
-              onChange={e => setRepass(e.target.value)}
-              minLength={6}
-              className="bg-green-50 dark:bg-neutral-800 border border-green-200 dark:border-green-700 rounded-xl px-4 py-3 text-lg outline-none focus:ring-2 focus:ring-green-300 dark:focus:ring-green-800 transition text-black dark:text-white w-full pr-12"
+              type="text"
+              placeholder="Full Name"
+              value={name}
+              onChange={e => setName(e.target.value)}
+              className="bg-green-50 dark:bg-neutral-800 border border-green-200 dark:border-green-700 rounded-xl px-4 py-3 text-lg outline-none focus:ring-2 focus:ring-green-300 dark:focus:ring-green-800 transition text-black dark:text-white"
             />
+            <input
+              type="email"
+              placeholder="Email"
+              required
+              value={email}
+              onChange={e => setEmail(e.target.value)}
+              className="bg-green-50 dark:bg-neutral-800 border border-green-200 dark:border-green-700 rounded-xl px-4 py-3 text-lg outline-none focus:ring-2 focus:ring-green-300 dark:focus:ring-green-800 transition text-black dark:text-white"
+            />
+            <div className="relative">
+              <input
+                type={showPassword ? "text" : "password"}
+                placeholder="Password"
+                required
+                value={pass}
+                onChange={e => setPass(e.target.value)}
+                minLength={6}
+                className="bg-green-50 dark:bg-neutral-800 border border-green-200 dark:border-green-700 rounded-xl px-4 py-3 text-lg outline-none focus:ring-2 focus:ring-green-300 dark:focus:ring-green-800 transition text-black dark:text-white w-full pr-12"
+              />
+              <button
+                type="button"
+                tabIndex={-1}
+                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-green-500 hover:text-green-700 dark:text-green-400 dark:hover:text-green-200"
+                onClick={() => setShowPassword(v => !v)}
+                aria-label={showPassword ? "Hide password" : "Show password"}
+              >
+                {showPassword ? <EyeOff size={22} /> : <Eye size={22} />}
+              </button>
+            </div>
+            <div className="relative">
+              <input
+                type={showRePassword ? "text" : "password"}
+                placeholder="Re-enter Password"
+                required
+                value={repass}
+                onChange={e => setRepass(e.target.value)}
+                minLength={6}
+                className="bg-green-50 dark:bg-neutral-800 border border-green-200 dark:border-green-700 rounded-xl px-4 py-3 text-lg outline-none focus:ring-2 focus:ring-green-300 dark:focus:ring-green-800 transition text-black dark:text-white w-full pr-12"
+              />
+              <button
+                type="button"
+                tabIndex={-1}
+                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-green-500 hover:text-green-700 dark:text-green-400 dark:hover:text-green-200"
+                onClick={() => setShowRePassword(v => !v)}
+                aria-label={showRePassword ? "Hide password" : "Show password"}
+              >
+                {showRePassword ? <EyeOff size={22} /> : <Eye size={22} />}
+              </button>
+            </div>
             <button
-              type="button"
-              tabIndex={-1}
-              className="absolute right-3 top-1/2 transform -translate-y-1/2 text-green-500 hover:text-green-700 dark:text-green-400 dark:hover:text-green-200"
-              onClick={() => setShowRePassword(v => !v)}
-              aria-label={showRePassword ? "Hide password" : "Show password"}
+              type="submit"
+              className="w-full bg-green-600 text-white py-3 rounded-xl font-semibold text-lg hover:bg-green-700 hover:scale-105 transition"
+              disabled={loading}
             >
-              {showRePassword ? <EyeOff size={22} /> : <Eye size={22} />}
+              {loading ? "Creating..." : "Get Started"}
             </button>
-          </div>
-          <button
-            type="submit"
-            className="w-full bg-green-600 text-white py-3 rounded-xl font-semibold text-lg hover:bg-green-700 hover:scale-105 transition"
-            disabled={loading}
-          >
-            {loading ? "Creating..." : "Get Started"}
-          </button>
-        </form>
+          </form>
+        )}
         <div className="text-center text-sm text-green-800 dark:text-green-200 mt-1">
           Already a BudgetWise user?{" "}
           <Link
