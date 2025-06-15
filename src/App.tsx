@@ -12,11 +12,11 @@ import Dashboard from "./pages/Dashboard";
 import Add from "./pages/Add";
 import History from "./pages/History";
 import Settings from "./pages/Settings";
-import Login from "./pages/Login";
+import SignUp from "./pages/SignUp";
+import SignIn from "./pages/SignIn";
 import NotFound from "./pages/NotFound";
 
-const queryClient = new QueryClient();
-
+// No more Navbar at top, only Sidebar at side.
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
@@ -24,7 +24,7 @@ const App = () => (
       <Sonner />
       <BrowserRouter>
         <div className="font-sans min-h-screen flex flex-col bg-background transition-colors">
-          <Navbar />
+          {/* Only Sidebar, no top Navbar */}
           <div className="flex flex-1 w-full">
             <Sidebar />
             <main className="flex-1 min-w-0 px-2 md:px-10 pb-24 pt-6">
@@ -34,7 +34,10 @@ const App = () => (
                 <Route path="/add" element={<Add />} />
                 <Route path="/history" element={<History />} />
                 <Route path="/settings" element={<Settings />} />
-                <Route path="/login" element={<Login />} />
+                {/* New, creative Auth pages */}
+                <Route path="/signup" element={<SignUp />} />
+                <Route path="/signin" element={<SignIn />} />
+                {/* Remove old /login route */}
                 {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
                 <Route path="*" element={<NotFound />} />
               </Routes>

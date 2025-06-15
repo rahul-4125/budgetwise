@@ -2,22 +2,23 @@
 import { AnalyticsDashboard } from "@/components/AnalyticsDashboard";
 
 const Dashboard = () => (
-  <div className="flex flex-col gap-8 pb-16 relative overflow-hidden">
-    {/* Animated accent background */}
+  <div className="flex flex-col gap-14 pb-16 relative overflow-hidden">
+    {/* Animated accent background, larger! */}
     <div className="pointer-events-none absolute inset-0 z-0 transition-all">
-      {/* Tailwind animated gradient background */}
-      <div className="absolute -top-32 -left-32 w-[450px] h-[450px] rounded-full bg-gradient-to-tr from-primary/20 via-accent/30 to-secondary/30 blur-3xl animate-pulse -z-10" />
-      <div className="absolute top-1/2 right-0 w-[380px] h-[380px] rounded-full bg-gradient-to-tl from-secondary/30 via-destructive/10 to-primary/10 blur-2xl opacity-70 animate-fade-in-slow -z-10" />
+      <div className="absolute -top-48 -left-44 w-[600px] h-[600px] rounded-full bg-gradient-to-tr from-green-200/40 via-green-200/50 to-yellow-100/30 blur-2xl animate-pulse -z-10" />
+      <div className="absolute top-[62%] right-0 w-[450px] h-[400px] rounded-full bg-gradient-to-tl from-green-100/60 via-yellow-50/20 to-yellow-100/10 blur-3xl opacity-70 animate-fade-in-slow -z-10" />
     </div>
-    {/* Animated Welcome */}
     <div
-      className="text-3xl font-bold my-5 animate-fade-in-slow"
-      style={{ animationDelay: "0.15s" }}
+      className="text-4xl md:text-5xl font-bold mt-7 mb-1 animate-fade-in-slow text-green-900 tracking-tight drop-shadow"
+      style={{ animationDelay: "0.10s" }}
     >
-      Welcome back, <span className="text-primary">User</span> 👋
+      Welcome back to <span className="text-green-600">BudgetWise</span>!
     </div>
-    {/* Dashboard charts container - animate in */}
-    <div className="animate-scale-in fade-in" style={{ animationDelay: "0.25s" }}>
+    <div className="text-lg text-green-900/85 mb-2 animate-fade-in-up" style={{ animationDelay: "0.25s" }}>
+      Manage your cash flow, build savings, and let every bill bring you a little closer to your dreams.
+    </div>
+    {/* Dashboard charts container - extra spacious */}
+    <div className="animate-scale-in" style={{ animationDelay: "0.19s" }}>
       <AnalyticsDashboard />
     </div>
   </div>
