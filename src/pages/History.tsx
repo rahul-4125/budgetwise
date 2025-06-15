@@ -1,5 +1,6 @@
 
 import { categories } from "@/utils/categories";
+import { IndianRupee } from "lucide-react";
 const mockEntries = [
   { id: 1, type: "expense", amount: 42.25, category: "Food", note: "Groceries", date: "2025-06-10" },
   { id: 2, type: "income", amount: 4000, category: "Salary", note: "Paycheck", date: "2025-06-01" },
@@ -32,7 +33,10 @@ export default function History() {
                   {entry.type.charAt(0).toUpperCase() + entry.type.slice(1)}
                 </span>
               </td>
-              <td className="py-2 px-3">${entry.amount.toFixed(2)}</td>
+              <td className="py-2 px-3 flex items-center gap-1">
+                <IndianRupee className="w-4 h-4 inline-block text-green-700" />
+                {entry.amount.toFixed(2)}
+              </td>
               <td className="py-2 px-3">{entry.note}</td>
             </tr>
           ))}
