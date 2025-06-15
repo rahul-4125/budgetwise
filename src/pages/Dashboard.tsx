@@ -3,9 +3,10 @@ import { AnalyticsDashboard } from "@/components/AnalyticsDashboard";
 
 const Dashboard = () => (
   <div className="flex flex-col gap-14 pb-16 relative overflow-hidden w-full min-h-[90vh]">
-    {/* Animated accent background, larger! */}
+    {/* Animated accent background: stays still in dark mode */}
     <div className="pointer-events-none absolute inset-0 z-0 transition-all">
-      <div className="absolute -top-48 -left-44 w-[600px] h-[600px] rounded-full bg-gradient-to-tr from-green-200/40 via-green-200/50 to-yellow-100/30 blur-2xl animate-pulse -z-10" />
+      <div className="absolute -top-48 -left-44 w-[600px] h-[600px] rounded-full bg-gradient-to-tr from-green-200/40 via-green-200/50 to-yellow-100/30 blur-2xl 
+        animate-pulse dark:animate-none -z-10" />
       <div className="absolute top-[62%] right-0 w-[450px] h-[400px] rounded-full bg-gradient-to-tl from-green-100/60 via-yellow-50/20 to-yellow-100/10 blur-3xl opacity-70 animate-fade-in-slow -z-10" />
     </div>
     <div
