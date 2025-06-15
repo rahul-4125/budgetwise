@@ -1,11 +1,9 @@
 
 import { categories } from "@/utils/categories";
 import { IndianRupee } from "lucide-react";
-const mockEntries = [
-  { id: 1, type: "expense", amount: 42.25, category: "Food", note: "Groceries", date: "2025-06-10" },
-  { id: 2, type: "income", amount: 4000, category: "Salary", note: "Paycheck", date: "2025-06-01" },
-  { id: 3, type: "expense", amount: 55.55, category: "Utilities", note: "Electric bill", date: "2025-06-02" },
-];
+
+// For new users: no entries
+const entries: any[] = [];
 
 export default function History() {
   return (
@@ -22,26 +20,35 @@ export default function History() {
           </tr>
         </thead>
         <tbody>
-          {mockEntries.map(entry => (
-            <tr key={entry.id} className="odd:bg-background even:bg-muted">
-              <td className="py-2 px-3">{entry.date}</td>
-              <td className="py-2 px-3">
-                {categories.find(c => c.name === entry.category)?.icon} {entry.category}
+          {entries.length === 0 ? (
+            <tr>
+              <td colSpan={5} className="text-center text-muted-foreground py-14">
+                No entries yet.
               </td>
-              <td className="py-2 px-3">
-                <span className={entry.type === "income" ? "text-green-600" : "text-red-600"}>
-                  {entry.type.charAt(0).toUpperCase() + entry.type.slice(1)}
-                </span>
-              </td>
-              <td className="py-2 px-3 flex items-center gap-1">
-                <IndianRupee className="w-4 h-4 inline-block text-green-700" />
-                {entry.amount.toFixed(2)}
-              </td>
-              <td className="py-2 px-3">{entry.note}</td>
             </tr>
-          ))}
+          ) : (
+            entries.map(entry => (
+              <tr key={entry.id} className="odd:bg-background even:bg-muted">
+                <td className="py-2 px-3">{entry.date}</td>
+                <td className="py-2 px-3">
+                  {categories.find(c => c.name === entry.category)?.icon} {entry.category}
+                </td>
+                <td className="py-2 px-3">
+                  <span className={entry.type === "income" ? "text-green-600" : "text-red-600"}>
+                    {entry.type.charAt(0).toUpperCase() + entry.type.slice(1)}
+                  </span>
+                </td>
+                <td className="py-2 px-3 flex items-center gap-1">
+                  <IndianRupee className="w-4 h-4 inline-block text-green-700" />
+                  {entry.amount.toFixed(2)}
+                </td>
+                <td className="py-2 px-3">{entry.note}</td>
+              </tr>
+            ))
+          )}
         </tbody>
       </table>
     </div>
   );
 }
+
