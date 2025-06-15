@@ -1,73 +1,71 @@
-# Welcome to your Lovable project
 
-## Project info
+# BudgetWise
 
-**URL**: https://lovable.dev/projects/dfc0d680-6c86-4929-aa87-4d863b023327
+BudgetWise is a modern, user-friendly web application for tracking personal finances, managing cash flow, and building savings. Quickly visualize your expenses and income, spot trends, and maintain control of your budget.
 
-## How can I edit this code?
+## Features
 
-There are several ways of editing your application.
+- **Intuitive analytics dashboard** for expense, income, and savings visualization
+- **Easy entry system** for adding, viewing, and categorizing your transactions
+- **Responsive, clean design** that works on desktop and mobile
+- **User authentication** for secure access
+- Powered by [Vite](https://vitejs.dev/), [React](https://react.dev/), [TypeScript](https://www.typescriptlang.org/), [shadcn/ui](https://ui.shadcn.com/), [Tailwind CSS](https://tailwindcss.com/), and [Supabase](https://supabase.com/)
 
-**Use Lovable**
+## Getting Started
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/dfc0d680-6c86-4929-aa87-4d863b023327) and start prompting.
+### Prerequisites
 
-Changes made via Lovable will be committed automatically to this repo.
+- Node.js (18+ recommended)
+- npm (comes with Node.js)
 
-**Use your preferred IDE**
+### Installation
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
-
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
-
-Follow these steps:
-
-```sh
-# Step 1: Clone the repository using the project's Git URL.
+```bash
 git clone <YOUR_GIT_URL>
-
-# Step 2: Navigate to the project directory.
 cd <YOUR_PROJECT_NAME>
+npm install
+```
 
-# Step 3: Install the necessary dependencies.
-npm i
+### Running the Development Server
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
+```bash
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
+Your app will be served at [http://localhost:5173](http://localhost:5173).
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+### Building for Production
 
-**Use GitHub Codespaces**
+```bash
+npm run build
+npm run preview
+```
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+## Project Structure
 
-## What technologies are used for this project?
+- `src/` – Main application source code
+  - `components/` – UI and dashboard components
+  - `pages/` – Top-level pages/routes
+  - `hooks/` – Custom React hooks
+  - `integrations/supabase/` – Supabase client and types
+  - `utils/` – Utility functions
+- `public/` – Static assets
 
-This project is built with:
+## Environment Variables
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+Create a `.env` file as needed based on your Supabase project details:
 
-## How can I deploy this project?
+```
+VITE_SUPABASE_URL=<your-supabase-url>
+VITE_SUPABASE_ANON_KEY=<your-supabase-anon-key>
+```
 
-Simply open [Lovable](https://lovable.dev/projects/dfc0d680-6c86-4929-aa87-4d863b023327) and click on Share -> Publish.
+## Deployment
 
-## Can I connect a custom domain to my Lovable project?
+This application can be deployed to any modern static hosting platform and requires API access to a [Supabase](https://supabase.com/) backend. 
 
-Yes, you can!
+For details on how to configure hosting and environment variables, see the documentation for your chosen platform.
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+---
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+© 2025 BudgetWise. All rights reserved.
