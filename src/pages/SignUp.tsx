@@ -72,11 +72,28 @@ export default function SignUp() {
     });
     setLoading(false);
     if (error) {
-      toast({
-        title: "Sign up failed",
-        description: error.message,
-        variant: "destructive"
-      });
+      // Detect if error means user already signed up
+      if (
+        error.message &&
+        (
+          error.message.toLowerCase().includes("user already registered") ||
+          error.message.toLowerCase().includes("already registered") ||
+          error.message.toLowerCase().includes("already in use") ||
+          error.message.toLowerCase().includes("email already") // fallback for other possible messages
+        )
+      ) {
+        toast({
+          title: "Account already exists",
+          description: "This email is already registered. Please sign in instead.",
+          variant: "destructive"
+        });
+      } else {
+        toast({
+          title: "Sign up failed",
+          description: error.message,
+          variant: "destructive"
+        });
+      }
       return;
     }
     setShowVerifyPrompt(true);
