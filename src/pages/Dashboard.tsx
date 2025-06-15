@@ -1,12 +1,22 @@
 
 import { AnalyticsDashboard } from "@/components/AnalyticsDashboard";
 import { useEntries } from "@/hooks/useEntries";
+import { useState } from "react";
 import { categories } from "@/utils/categories";
+import { groupEntries, barMonths, GroupByView } from "@/utils/groupEntriesBy";
 
-function computeDashboardData(entries: any[]) {
-  // Pie Data: Expense Breakdown by Category
+function stringToColor(str: string) {
+  let hash = 0;
+  for (let i = 0; i < str.length; i++) hash = str.charCodeAt(i) + ((hash << 5) - hash);
+  return `hsl(${hash % 360}, 70%, 60%)`;
+}
+
+function computeDashboardData(entries: any[], view: GroupByView) {
+  // Pie Data: Expense Breakdown by Category for the latest shown period
+  const groups = groupEntries(entries, view);
+  const lastPeriod = Object.keys(groups).at(-1);
   const pieGroups: Record<string, number> = {};
-  entries.filter(e => e.type === "expense").forEach(e => {
+  (lastPeriod ? groups[lastPeriod] : []).filter(e => e.type === "expense").forEach(e => {
     pieGroups[e.category] = (pieGroups[e.category] || 0) + Number(e.amount);
   });
   const pieData = Object.keys(pieGroups).map(cat => ({
@@ -15,38 +25,30 @@ function computeDashboardData(entries: any[]) {
     color: stringToColor(cat)
   }));
 
-  // Bar Data: Monthly Income vs Expenses (past 6 months)
-  const current = new Date();
-  const barMonths: string[] = [];
-  for (let i = 5; i >= 0; i--) {
-    const dt = new Date(current.getFullYear(), current.getMonth() - i, 1);
-    barMonths.push(dt.toLocaleString('default', { month: 'short', year: '2-digit' }));
-  }
-
+  // Bar Data: Income vs Expenses for each time bucket
+  const bars = barMonths(view);
   const byMonth: Record<string, { income: number; expenses: number }> = {};
-  barMonths.forEach(m => { byMonth[m] = { income: 0, expenses: 0 }; });
+  bars.forEach(m => { byMonth[m] = { income: 0, expenses: 0 }; });
 
   entries.forEach(e => {
-    const entryDate = new Date(e.date);
-    const mkey = entryDate.toLocaleString('default', { month: 'short', year: '2-digit' });
-    if (byMonth[mkey]) {
-      if (e.type === "income") byMonth[mkey].income += Number(e.amount);
-      else if (e.type === "expense") byMonth[mkey].expenses += Number(e.amount);
+    const period = groupEntries([e], view); // group by this view
+    const key = Object.keys(period)[0];
+    if (byMonth[key]) {
+      if (e.type === "income") byMonth[key].income += Number(e.amount);
+      else if (e.type === "expense") byMonth[key].expenses += Number(e.amount);
     }
   });
-  const barData = barMonths.map(m => ({
+  const barData = bars.map(m => ({
     month: m, income: byMonth[m].income, expenses: byMonth[m].expenses
   }));
 
   // Area Data: Cumulative Savings
   let balance = 0;
-  const areaData = barMonths.map(m => {
+  const areaData = bars.map(m => {
     const monthEntries = entries.filter(e => {
-      const entryDate = new Date(e.date);
-      const mstring = entryDate.toLocaleString('default', { month: 'short', year: '2-digit' });
-      return mstring === m;
+      const val = groupEntries([e], view);
+      return Object.keys(val)[0] === m;
     });
-    // sum incomes and expenses for the month
     let monthIncome = 0, monthExpense = 0;
     monthEntries.forEach(e => {
       if (e.type === "income") monthIncome += Number(e.amount);
@@ -59,17 +61,11 @@ function computeDashboardData(entries: any[]) {
   return { pieData, barData, areaData };
 }
 
-function stringToColor(str: string) {
-  // Simple color hash from string for category
-  let hash = 0;
-  for (let i = 0; i < str.length; i++) hash = str.charCodeAt(i) + ((hash << 5) - hash);
-  return `hsl(${hash % 360}, 70%, 60%)`;
-}
-
 const Dashboard = () => {
-  const { data: entries, isLoading } = useEntries();
+  const { data: entries } = useEntries();
+  const [view, setView] = useState<GroupByView>("monthly");
   const { pieData, barData, areaData } = entries && entries.length > 0
-    ? computeDashboardData(entries)
+    ? computeDashboardData(entries, view)
     : { pieData: [], barData: [], areaData: [] };
 
   return (
@@ -93,6 +89,8 @@ const Dashboard = () => {
           pieData={pieData}
           barData={barData}
           areaData={areaData}
+          view={view}
+          setView={setView}
         />
       </div>
     </div>
@@ -100,3 +98,4 @@ const Dashboard = () => {
 };
 
 export default Dashboard;
+
