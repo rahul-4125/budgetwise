@@ -2,13 +2,17 @@
 import { categories } from "@/utils/categories";
 import { IndianRupee } from "lucide-react";
 import { useEntries } from "@/hooks/useEntries";
+import { HeroSection } from "@/components/HeroSection";
 
 export default function History() {
   const { data: entries, isLoading, error } = useEntries();
 
   return (
-    <div className="max-w-3xl mx-auto p-6">
-      <div className="text-2xl font-bold mb-4">Entry History</div>
+    <div className="max-w-3xl mx-auto p-6 flex flex-col gap-8">
+      <HeroSection
+        title={<>History</>}
+        subtitle={<>View all your entries across time, category, and type.</>}
+      />
       <table className="min-w-full bg-card border rounded-lg overflow-hidden shadow">
         <thead className="bg-accent">
           <tr>

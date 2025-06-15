@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/hooks/use-toast";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
+import { HeroSection } from "@/components/HeroSection";
 
 const Settings = () => {
   const [email, setEmail] = useState<string | null>(null);
@@ -45,8 +46,10 @@ const Settings = () => {
 
   return (
     <div className="max-w-2xl mx-auto bg-card border border-border rounded-lg p-10 shadow my-10 space-y-8">
-      <div className="text-2xl font-bold mb-4">Settings</div>
-      <div className="text-muted-foreground mb-2">Personalize your BudgetWise experience and manage your profile.</div>
+      <HeroSection
+        title={<>Settings</>}
+        subtitle={<>Personalize your BudgetWise experience and manage your profile.</>}
+      />
       <Card>
         <CardHeader>
           <CardTitle>Profile</CardTitle>
