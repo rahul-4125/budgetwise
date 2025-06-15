@@ -1,10 +1,10 @@
-
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/hooks/use-toast";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { HeroSection } from "@/components/HeroSection";
+import AppPreferences from "@/components/AppPreferences";
 
 const Settings = () => {
   const [email, setEmail] = useState<string | null>(null);
@@ -84,9 +84,7 @@ const Settings = () => {
           <CardTitle>App Preferences</CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="text-muted-foreground text-sm">
-            Customize your BudgetWise preferences and interface. (Feature coming soon!)
-          </div>
+          <AppPreferences />
         </CardContent>
       </Card>
     </div>
