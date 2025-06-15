@@ -1,19 +1,18 @@
-
 import { Link, useLocation } from "react-router-dom";
 import { ChartPie, Calendar, FilePlus, Settings, Moon, Sun } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useState, useEffect } from "react";
 
-// Brand logo: green, minimal, focused on cashbills
+// Brand logo: rupee, green, minimal, focused on cashbills
 const Logo = () => (
   <div className="flex flex-col items-center gap-2 mb-10 px-1">
     <div className="bg-gradient-to-bl from-green-400 via-green-600 to-yellow-400
         w-16 h-16 rounded-2xl flex items-center justify-center shadow shadow-green-200">
-      {/* CASHBILL INSPIRED SVG */}
+      {/* RUPEE INSPIRED SVG */}
       <svg width="40" height="40" viewBox="0 0 36 36" fill="none">
         <rect x="4" y="8" width="28" height="20" rx="4" fill="#22C55E" stroke="#14532D" strokeWidth="2"/>
         <ellipse cx="18" cy="18" rx="6" ry="6" fill="#F4F1BB" stroke="#14532D" strokeWidth="1.25"/>
-        <text x="18" y="22" textAnchor="middle" fontSize="14" fill="#22C55E" fontWeight="bold">$</text>
+        <text x="18" y="22" textAnchor="middle" fontSize="14" fill="#22C55E" fontWeight="bold">₹</text>
       </svg>
     </div>
     <div className="flex flex-col items-center">
@@ -93,4 +92,3 @@ export function Sidebar() {
     </aside>
   );
 }
-
