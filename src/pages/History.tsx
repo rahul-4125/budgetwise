@@ -1,11 +1,11 @@
 
 import { categories } from "@/utils/categories";
 import { IndianRupee } from "lucide-react";
-
-// For new users: no entries
-const entries: any[] = [];
+import { useEntries } from "@/hooks/useEntries";
 
 export default function History() {
+  const { data: entries, isLoading, error } = useEntries();
+
   return (
     <div className="max-w-3xl mx-auto p-6">
       <div className="text-2xl font-bold mb-4">Entry History</div>
@@ -20,14 +20,22 @@ export default function History() {
           </tr>
         </thead>
         <tbody>
-          {entries.length === 0 ? (
+          {isLoading ? (
+            <tr>
+              <td colSpan={5} className="text-center text-muted-foreground py-14">Loading...</td>
+            </tr>
+          ) : error ? (
+            <tr>
+              <td colSpan={5} className="text-center text-red-600 py-10">Error loading entries</td>
+            </tr>
+          ) : (!entries || entries.length === 0) ? (
             <tr>
               <td colSpan={5} className="text-center text-muted-foreground py-14">
                 No entries yet.
               </td>
             </tr>
           ) : (
-            entries.map(entry => (
+            entries.map((entry: any) => (
               <tr key={entry.id} className="odd:bg-background even:bg-muted">
                 <td className="py-2 px-3">{entry.date}</td>
                 <td className="py-2 px-3">
@@ -40,7 +48,7 @@ export default function History() {
                 </td>
                 <td className="py-2 px-3 flex items-center gap-1">
                   <IndianRupee className="w-4 h-4 inline-block text-green-700" />
-                  {entry.amount.toFixed(2)}
+                  {Number(entry.amount).toFixed(2)}
                 </td>
                 <td className="py-2 px-3">{entry.note}</td>
               </tr>
@@ -51,4 +59,3 @@ export default function History() {
     </div>
   );
 }
-

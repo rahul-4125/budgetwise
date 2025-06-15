@@ -1,4 +1,3 @@
-
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -9,6 +8,7 @@ import { Calendar } from "@/components/ui/calendar";
 import { Button } from "@/components/ui/button";
 import { format } from "date-fns";
 import { Calendar as CalendarIcon } from "lucide-react";
+import { useAddEntry } from "@/hooks/useEntries";
 
 const FormSchema = z.object({
   amount: z.string().min(1, "Amount is required"),
@@ -35,18 +35,35 @@ export function EntryForm() {
     },
   });
 
-  const onSubmit = (data: z.infer<typeof FormSchema>) => {
-    toast({
-      title: "Entry added!",
-      description: (
-        <div className="flex flex-col gap-1">
-          <span>Amount: <b>{data.amount}</b></span>
-          <span>Type: <b>{data.type}</b></span>
-          <span>Category: <b>{data.category}</b></span>
-        </div>
-      )
-    });
-    reset({ type: "expense", date: new Date() });
+  const addEntry = useAddEntry();
+
+  const onSubmit = async (data: z.infer<typeof FormSchema>) => {
+    try {
+      await addEntry.mutateAsync({
+        amount: Number(data.amount),
+        type: data.type,
+        category: data.category,
+        note: data.note || null,
+        date: typeof data.date === "string" ? data.date : (data.date as Date).toISOString().split("T")[0],
+      });
+      toast({
+        title: "Entry added!",
+        description: (
+          <div className="flex flex-col gap-1">
+            <span>Amount: <b>{data.amount}</b></span>
+            <span>Type: <b>{data.type}</b></span>
+            <span>Category: <b>{data.category}</b></span>
+          </div>
+        )
+      });
+      reset({ type: "expense", date: new Date() });
+    } catch (err: any) {
+      toast({
+        title: "Error adding entry",
+        description: err?.message || "Could not save entry.",
+        variant: "destructive"
+      });
+    }
   };
 
   const dateValue = watch("date");
