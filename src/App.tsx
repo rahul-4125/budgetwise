@@ -16,6 +16,7 @@ import History from "./pages/History";
 import Profile from "./pages/Profile";
 import SignUp from "./pages/SignUp";
 import SignIn from "./pages/SignIn";
+import ResetPassword from "./pages/ResetPassword";
 import NotFound from "./pages/NotFound";
 
 // Create a QueryClient instance for React Query
@@ -80,7 +81,7 @@ function MainLayout() {
   }, []);
 
   // Routes where sidebar (and nav) should be hidden
-  const isAuthRoute = location.pathname === "/signin" || location.pathname === "/signup" || location.pathname === "/";
+  const isAuthRoute = location.pathname === "/signin" || location.pathname === "/signup" || location.pathname === "/" || location.pathname === "/reset-password";
   const showSidebar = !isAuthRoute && user;
 
   if (loading) {
@@ -101,6 +102,7 @@ function MainLayout() {
             <Route path="/" element={<Index />} />
             <Route path="/signup" element={<SignUp />} />
             <Route path="/signin" element={<SignIn />} />
+            <Route path="/reset-password" element={<ResetPassword />} />
             <Route path="/dashboard" element={
               <ProtectedRoute>
                 <Dashboard />
