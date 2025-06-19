@@ -1,12 +1,12 @@
+
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/hooks/use-toast";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { HeroSection } from "@/components/HeroSection";
-import AppPreferences from "@/components/AppPreferences";
 
-const Settings = () => {
+const Profile = () => {
   const [email, setEmail] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
@@ -47,12 +47,12 @@ const Settings = () => {
   return (
     <div className="max-w-2xl mx-auto bg-card border border-border rounded-lg p-10 shadow my-10 space-y-8">
       <HeroSection
-        title={<>Settings</>}
-        subtitle={<>Personalize your BudgetWise experience and manage your profile.</>}
+        title={<>Profile</>}
+        subtitle={<>Manage your account information and preferences.</>}
       />
       <Card>
         <CardHeader>
-          <CardTitle>Profile</CardTitle>
+          <CardTitle>Account Information</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="mb-3">
@@ -79,16 +79,8 @@ const Settings = () => {
           </button>
         </CardContent>
       </Card>
-      <Card>
-        <CardHeader>
-          <CardTitle>App Preferences</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <AppPreferences />
-        </CardContent>
-      </Card>
     </div>
   );
 };
 
-export default Settings;
+export default Profile;

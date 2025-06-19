@@ -1,6 +1,6 @@
 
 import { Link, useLocation } from "react-router-dom";
-import { ChartPie, Calendar, FilePlus, Settings, Moon, Sun } from "lucide-react";
+import { ChartPie, Calendar, FilePlus, User, Moon, Sun } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useState, useEffect } from "react";
 
@@ -29,7 +29,7 @@ const sidebarItems = [
   { label: "Dashboard", icon: ChartPie, path: "/dashboard" },
   { label: "Add Entry", icon: FilePlus, path: "/add" },
   { label: "History", icon: Calendar, path: "/history" },
-  { label: "Settings", icon: Settings, path: "/settings" }
+  { label: "Profile", icon: User, path: "/profile" }
 ];
 
 // Dark mode toggle functionality in sidebar
