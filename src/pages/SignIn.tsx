@@ -11,9 +11,6 @@ export default function SignIn() {
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [user, setUser] = useState<any>(null);
-  const [showForgotPassword, setShowForgotPassword] = useState(false);
-  const [resetEmail, setResetEmail] = useState("");
-  const [resetLoading, setResetLoading] = useState(false);
   const navigate = useNavigate();
 
   // Ensure dark mode toggles page background as well
@@ -85,78 +82,6 @@ export default function SignIn() {
     navigate("/dashboard");
   }
 
-  async function handleForgotPassword(e: React.FormEvent) {
-    e.preventDefault();
-    setResetLoading(true);
-    
-    const { error } = await supabase.auth.resetPasswordForEmail(resetEmail, {
-      redirectTo: `${window.location.origin}/reset-password`
-    });
-    
-    setResetLoading(false);
-    
-    if (error) {
-      toast({
-        title: "Password reset failed",
-        description: error.message,
-        variant: "destructive"
-      });
-    } else {
-      toast({
-        title: "Password reset email sent",
-        description: "Check your inbox for a password reset link.",
-      });
-      setShowForgotPassword(false);
-      setResetEmail("");
-    }
-  }
-
-  if (showForgotPassword) {
-    return (
-      <div className="min-h-screen flex flex-col items-center justify-center px-2 bg-gradient-to-br from-green-50 via-yellow-50 to-white dark:from-neutral-950 dark:via-neutral-900 dark:to-black transition-colors duration-300">
-        <div className="bg-white dark:bg-neutral-900 rounded-3xl shadow-2xl border-2 border-green-200 dark:border-green-800 w-full max-w-md p-10 mx-auto mt-10 space-y-7 animate-fade-in-slow">
-          <div className="flex justify-center">
-            <svg width="40" height="40" viewBox="0 0 36 36" fill="none">
-              <rect x="4" y="8" width="28" height="20" rx="4" fill="#22C55E" stroke="#14532D" strokeWidth="2"/>
-              <ellipse cx="18" cy="18" rx="6" ry="6" fill="#F4F1BB" stroke="#14532D" strokeWidth="1.25"/>
-              <text x="18" y="22" textAnchor="middle" fontSize="14" fill="#22C55E" fontWeight="bold">$</text>
-            </svg>
-          </div>
-          <h2 className="text-3xl font-extrabold text-center text-green-900 dark:text-green-100 mb-2">Reset Password</h2>
-          <p className="text-center text-green-800 dark:text-green-200 text-sm">
-            Enter your email address and we'll send you a link to reset your password.
-          </p>
-          <form onSubmit={handleForgotPassword} className="flex flex-col gap-5">
-            <input
-              type="email"
-              placeholder="Email"
-              required
-              value={resetEmail}
-              onChange={e => setResetEmail(e.target.value)}
-              className="bg-green-50 dark:bg-neutral-800 border border-green-200 dark:border-green-700 rounded-xl px-4 py-3 text-lg outline-none focus:ring-2 focus:ring-green-300 dark:focus:ring-green-800 transition text-black dark:text-white"
-            />
-            <button
-              type="submit"
-              className="w-full bg-green-600 text-white py-3 rounded-xl font-semibold text-lg hover:bg-green-700 hover:scale-105 transition"
-              disabled={resetLoading}
-            >
-              {resetLoading ? "Sending..." : "Send Reset Link"}
-            </button>
-          </form>
-          <div className="text-center text-sm text-green-800 dark:text-green-200 mt-1">
-            Remember your password?{" "}
-            <button
-              onClick={() => setShowForgotPassword(false)}
-              className="underline text-primary hover:text-green-800"
-            >
-              Back to Sign In
-            </button>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
   return (
     <div className="min-h-screen flex flex-col items-center justify-center px-2 bg-gradient-to-br from-green-50 via-yellow-50 to-white dark:from-neutral-950 dark:via-neutral-900 dark:to-black transition-colors duration-300">
       <div className="bg-white dark:bg-neutral-900 rounded-3xl shadow-2xl border-2 border-green-200 dark:border-green-800 w-full max-w-md p-10 mx-auto mt-10 space-y-7 animate-fade-in-slow">
@@ -164,7 +89,7 @@ export default function SignIn() {
           <svg width="40" height="40" viewBox="0 0 36 36" fill="none">
             <rect x="4" y="8" width="28" height="20" rx="4" fill="#22C55E" stroke="#14532D" strokeWidth="2"/>
             <ellipse cx="18" cy="18" rx="6" ry="6" fill="#F4F1BB" stroke="#14532D" strokeWidth="1.25"/>
-            <text x="18" y="22" textAnchor="middle" fontSize="14" fill="#22C55E" fontWeight="bold">$</text>
+            <text x="18" y="22" textAnchor="middle" fontSize="14" fill="#22C55E" fontWeight="bold">₹</text>
           </svg>
         </div>
         <h2 className="text-3xl font-extrabold text-center text-green-900 dark:text-green-100 mb-2">Welcome to BudgetWise!</h2>
@@ -205,12 +130,6 @@ export default function SignIn() {
           </button>
         </form>
         <div className="text-center text-sm text-green-800 dark:text-green-200">
-          <button
-            onClick={() => setShowForgotPassword(true)}
-            className="underline text-primary hover:text-green-800 mb-2 block w-full"
-          >
-            Forgot your password?
-          </button>
           New here?{" "}
           <Link
             to="/signup"

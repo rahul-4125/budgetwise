@@ -14,7 +14,7 @@ export default function SignUp() {
   const [showPassword, setShowPassword] = useState(false);
   const [showRePassword, setShowRePassword] = useState(false);
   const [user, setUser] = useState<any>(null);
-  const [showVerifyPrompt, setShowVerifyPrompt] = useState(false); // NEW
+  const [showVerifyPrompt, setShowVerifyPrompt] = useState(false);
   const navigate = useNavigate();
 
   // Ensure dark mode toggles page background as well
@@ -106,7 +106,7 @@ export default function SignUp() {
           <svg width="40" height="40" viewBox="0 0 36 36" fill="none">
             <rect x="4" y="8" width="28" height="20" rx="4" fill="#22C55E" stroke="#14532D" strokeWidth="2"/>
             <ellipse cx="18" cy="18" rx="6" ry="6" fill="#F4F1BB" stroke="#14532D" strokeWidth="1.25"/>
-            <text x="18" y="22" textAnchor="middle" fontSize="14" fill="#22C55E" fontWeight="bold">$</text>
+            <text x="18" y="22" textAnchor="middle" fontSize="14" fill="#22C55E" fontWeight="bold">₹</text>
           </svg>
         </div>
         <h2 className="text-3xl font-extrabold text-center text-green-900 dark:text-green-100 mb-2">
@@ -203,7 +203,7 @@ export default function SignUp() {
           </Link>
         </div>
         <div className="text-xs mt-2 text-muted-foreground text-center">
-          Embrace smart budgeting — make every dollar count.
+          Embrace smart budgeting — make every rupee count.
         </div>
       </div>
     </div>

@@ -16,7 +16,6 @@ import History from "./pages/History";
 import Profile from "./pages/Profile";
 import SignUp from "./pages/SignUp";
 import SignIn from "./pages/SignIn";
-import ResetPassword from "./pages/ResetPassword";
 import NotFound from "./pages/NotFound";
 
 // Create a QueryClient instance for React Query
@@ -65,6 +64,14 @@ function MainLayout() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    // Initialize dark mode from localStorage on app start
+    const isDark = localStorage.getItem('darkMode') === 'true';
+    if (isDark) {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+
     // Check current session
     supabase.auth.getUser().then(({ data: { user } }) => {
       setUser(user);
@@ -81,7 +88,7 @@ function MainLayout() {
   }, []);
 
   // Routes where sidebar (and nav) should be hidden
-  const isAuthRoute = location.pathname === "/signin" || location.pathname === "/signup" || location.pathname === "/" || location.pathname === "/reset-password";
+  const isAuthRoute = location.pathname === "/signin" || location.pathname === "/signup" || location.pathname === "/";
   const showSidebar = !isAuthRoute && user;
 
   if (loading) {
@@ -102,7 +109,6 @@ function MainLayout() {
             <Route path="/" element={<Index />} />
             <Route path="/signup" element={<SignUp />} />
             <Route path="/signin" element={<SignIn />} />
-            <Route path="/reset-password" element={<ResetPassword />} />
             <Route path="/dashboard" element={
               <ProtectedRoute>
                 <Dashboard />
